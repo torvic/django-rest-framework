@@ -12,7 +12,7 @@ class TestUserSerializer(serializers.Serializer):
 
     def validate_name(self, value):
         # cusctom validation
-        print(self.context)
+        # print(self.context)
         if 'developer' in value:
             raise serializers.ValidationError('Error, no puede existir un usuario con ese nombre')
         return value
@@ -22,8 +22,8 @@ class TestUserSerializer(serializers.Serializer):
         # custom validation
         if value == '':
             raise serializers.ValidationError('Error, este campo no puedo estar en blanco XD')
-        if self.validate_name(self.context['name']) in value:
-            raise serializers.ValidationError('el email no puede contener el nombre XD')
+        """ if self.validate_name(self.context['name']) in value:
+            raise serializers.ValidationError('el email no puede contener el nombre XD') """
             
         return value
 
@@ -32,3 +32,9 @@ class TestUserSerializer(serializers.Serializer):
     
     def create(self, validated_data):
         return User(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+        return instance
