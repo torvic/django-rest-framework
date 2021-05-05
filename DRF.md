@@ -9,6 +9,7 @@ Algunas razones por la que debes usar DRF:
 * Extensiva documentacion, y gran soporte de la comunidad.
 * Utilizado por empresas reconocidas internacionalmente, incluidas **Mozilla**, **Red Hat**, **Heroku**.
 
+[1]: https://restframework.herokuapp.com/
 ## Requerimientos
 
 DRF requires the following:
@@ -28,8 +29,116 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 ```
+## Apuntes
+
+### Django MVT (modelo, vista, template)
+```
+|models.py| <--> |forms.py| <--> |views.py| <--> |urls.py| <-->
+                               | 
+                               |<--> render(template) <-->
+```
+### Django REST Framework
+```
+|models.py| <--> |serializer.py| <--> |views.py| <--> |urls.py|
+                                    |
+                                    |<--> Response(json) <-->
+```
+## Inicio rapido
+```
+$ django-admin 
+    |--> startproject <name-project> 
+    |--> startapp <name-app> --> settings.py
+
+$ py manage.py
+    |--> makemigrations
+    |--> migrate
+    |--> runserver
+    |--> createsuperuser
+
+serializer.py
+-------------
+    *import*
+    |--> rest_framework
+        |--> serializers.py
+    |--> django.contrib.auth
+        |--> models.py
+            |--> User
+    
+    *class*
+    serializers.py
+        |-->.Serializer
+        |-->.HyperLinkedModelSerializer
+        |-->.ModelSerializer
+            |<-- UserSerializer <--> User
+
+views.py
+--------
+    *import*
+    |--> rest_framework
+        |-->response.py 
+            |--> Response
+        |-->decorators.py
+            |--> api_view
+    |--> django.contrib.auth
+        |--> models.py
+            |--> User
+    |--> <app>
+        |--> serializers.py
+            |--> UserSerializer
+    
+    *function*
+    user_api_view(request) 
+        |--> queryset <--> User.objects.<...>    
+        |--> queryset_serializer <--> UserSerializer() 
+        |==> Response()
+
+    
+
+in_our_apps
+    |--> serializer.py
+
+urls.py
+-------
+    |--> urls.py|app <--> urls.py|project
+        |--> django
+            |--> urls
+                |--> path
+                |--> include
+
+```
 
 
 
-[1]: https://restframework.herokuapp.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
