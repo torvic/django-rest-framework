@@ -41,8 +41,8 @@ def user_detail_api_view(request, pk=None):
         
         if request.method == 'DELETE':
             user.delete()
-            return Response({'message':'Mensaje Eliminado correctamente'})
+            return Response({'message':'Mensaje Eliminado correctamente'}, status=status.HTTP_200_OK)
     
-    return Response({'message':'No existe el usuario'})
+    return Response({'message':'No existe el usuario'}, status=status.HTTP_400_BAD_REQUEST)
 
 
