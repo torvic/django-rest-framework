@@ -11,6 +11,7 @@ def user_api_view(request):
     if request.method == 'GET':
         queryset = User.objects.all()
         queryset_serializer = UserSerializer(queryset, many=True)
+        print(queryset_serializer.data)
         return Response(queryset_serializer.data)
     
     if request.method == 'POST':

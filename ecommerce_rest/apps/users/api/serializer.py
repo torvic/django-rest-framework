@@ -5,8 +5,34 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+    
+    def create(self, validated_data):
+      user = User(**validated_data)
+      user.set_password(validated_data['password'])
+      user.save()
+      return user
+    
+    def update(self, instance, validated_data):
+      update_user= super().update(instance, validated_data)
+      update_user.set_password(validated_data['password'])
+      update_user.save()
+      return update_user
 
-class TestUserSerializer(serializers.Serializer):
+
+class UserListSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+  
+  def to_representation(self, instance):
+    return {
+      'id': instance['id'],
+      'username': instance['username'],
+      'correo': instance['email'],
+      'password': instance['password'],
+    }
+
+""" PROCESO DE VALIDACIONES """
+""" class TestUserSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=200)
     email = serializers.EmailField(allow_blank=True)
 
@@ -22,8 +48,8 @@ class TestUserSerializer(serializers.Serializer):
         # custom validation
         if value == '':
             raise serializers.ValidationError('Error, este campo no puedo estar en blanco XD')
-        """ if self.validate_name(self.context['name']) in value:
-            raise serializers.ValidationError('el email no puede contener el nombre XD') """
+        if self.validate_name(self.context['name']) in value:
+            raise serializers.ValidationError('el email no puede contener el nombre XD')
             
         return value
 
@@ -37,4 +63,4 @@ class TestUserSerializer(serializers.Serializer):
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.save()
-        return instance
+        return instance """
