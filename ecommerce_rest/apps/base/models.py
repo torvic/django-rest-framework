@@ -4,7 +4,7 @@ class BaseModel(models.Model):
   id = models.AutoField(primary_key=True)
   state = models.BooleanField('Estado', default=True)
   created_date = models.DateField('fecha de creacion', auto_now=False, auto_now_add=True)
-  modified_date = models.DateField('fecha de modificacino', auto_now=True, auto_now_add=False)
+  modified_date = models.DateField('fecha de modificacion', auto_now=True, auto_now_add=False)
   deleted_date = models.DateField('fecha de Eliminacion', auto_now=True, auto_now_add=False)
 
   class Meta:
