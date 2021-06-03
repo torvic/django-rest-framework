@@ -6,9 +6,10 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 
 from apps.base.api import GeneralListAPIView
+from apps.users.authentication_mixins import Authentication
 from apps.products.api.serializers.product_serializers import ProductSerializer
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(Authentication, viewsets.ModelViewSet):
   serializer_class = ProductSerializer
 
   def get_queryset(self, pk=None):
@@ -18,7 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
       return self.get_serializer().Meta.model.objects.filter(id=pk, state=True).first()
 
   def list(self, request):
-    print("Hola desde el listado")
+    #print("Hola desde el listado")
     product_serializer = self.get_serializer(self.get_queryset(), many=True)
     return Response(product_serializer.data, status=status.HTTP_200_OK)
 
